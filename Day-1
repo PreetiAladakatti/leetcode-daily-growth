@@ -1,0 +1,66 @@
+# 🧩 Problem #1: Two Sum  
+
+## 🚀 **Understanding the Problem**  
+You are given an **array of numbers** and a **target sum**. Your task is to find **two numbers** in the array that add up to the target and return their **indices**.  
+
+#### **Example:**  
+```python
+nums = [2, 7, 11, 15]
+target = 9
+
+📌 Output: [0, 1] → Because 2 + 7 = 9.
+
+✅ Rules to remember:
+1️⃣ Each input has exactly one solution (so no need to handle cases where there’s no answer).
+2️⃣ You cannot use the same element twice.
+3️⃣ Return the indices, not the actual numbers.
+
+🤔 My Initial Thoughts
+Since I’m a beginner, my first thought was:
+
+Try every possible pair of numbers and check if their sum equals target.
+This means going through each number and comparing it with every other number.
+This seems simple but… feels slow.
+🔴 Brute Force Solution (O(n²))
+```
+def two_sum(nums, target):
+    for i in range(len(nums)):          # Pick the first number
+        for j in range(i+1, len(nums)): # Pick the second number
+            if nums[i] + nums[j] == target:
+                return [i, j]
+    return []  # Just in case (though problem guarantees a solution)
+```
+⏳ Time Complexity: O(n²) (slow)
+💾 Space Complexity: O(1) (no extra space)
+
+🔎 Flaw:
+This works, but it checks too many unnecessary pairs.
+
+⚡ Optimized Approach: Using HashMap (O(n))
+After learning more, I realized there’s a faster way!
+
+Instead of checking all pairs, we use a HashMap (dictionary) to store numbers and their indices.
+As we go through the list, we check if the complement (target - current number) exists in our map.
+
+```
+def two_sum(nums, target):
+    seen = {}  # Dictionary to store numbers and their indices
+    for i, num in enumerate(nums):
+        complement = target - num  # The number we need to find
+        if complement in seen:  # If we already encountered the complement
+            return [seen[complement], i]
+        seen[num] = i  # Store the current number's index
+    return []
+```
+✅ Time Complexity: O(n) (fast)
+✅ Space Complexity: O(n) (we store elements in a dictionary)
+
+📌 Learnings & Takeaways
+1️⃣ Brute force works but is slow → Always think if you can do better!
+2️⃣ HashMaps (Dictionaries) are powerful for quick lookups.
+3️⃣ Breaking a problem into simple words helps in finding better solutions.
+4️⃣ Efficiency matters → If a problem involves searching, think about HashMaps or Sets.
+
+Next Steps
+🔹 Now that I’ve solved Two Sum, I feel more confident about using dictionaries for fast lookups.
+🔹 Moving to the next problem tomorrow!
