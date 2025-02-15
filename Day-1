@@ -1,6 +1,6 @@
-# 🧩 Problem #1: Two Sum  
+# Problem #1: Two Sum  
 
-## 🚀 **Understanding the Problem**  
+## **Understanding the Problem**  
 You are given an **array of numbers** and a **target sum**. Your task is to find **two numbers** in the array that add up to the target and return their **indices**.  
 
 #### **Example:**  
@@ -11,9 +11,9 @@ target = 9
 📌 Output: [0, 1] → Because 2 + 7 = 9.
 
 ✅ Rules to remember:
-1️⃣ Each input has exactly one solution (so no need to handle cases where there’s no answer).
-2️⃣ You cannot use the same element twice.
-3️⃣ Return the indices, not the actual numbers.
+1. Each input has exactly one solution (so no need to handle cases where there’s no answer).
+2. You cannot use the same element twice.
+3. Return the indices, not the actual numbers.
 
 🤔 My Initial Thoughts
 Since I’m a beginner, my first thought was:
@@ -21,7 +21,7 @@ Since I’m a beginner, my first thought was:
 Try every possible pair of numbers and check if their sum equals target.
 This means going through each number and comparing it with every other number.
 This seems simple but… feels slow.
-🔴 Brute Force Solution (O(n²))
+ Brute Force Solution (O(n²))
 ```
 def two_sum(nums, target):
     for i in range(len(nums)):          # Pick the first number
@@ -62,5 +62,5 @@ def two_sum(nums, target):
 4️⃣ Efficiency matters → If a problem involves searching, think about HashMaps or Sets.
 
 Next Steps
-🔹 Now that I’ve solved Two Sum, I feel more confident about using dictionaries for fast lookups.
-🔹 Moving to the next problem tomorrow!
+Now that I’ve solved Two Sum, I feel more confident about using dictionaries for fast lookups.
+Moving to the next problem tomorrow!
