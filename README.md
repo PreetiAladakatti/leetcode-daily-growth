@@ -11,7 +11,7 @@ Each problem is documented with:
 - **Time complexity analysis** and lessons learned.
 
 
-📌## Why This Journal?  
+## 📌 Why This Journal?  
 
 I could just write solutions, but **writing forces clarity**. This is an attempt to **build strong problem-solving skills**, improve efficiency, and make sense of complex problems in a simple way.  
 
