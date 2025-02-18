@@ -1,0 +1,36 @@
+I picked a slighyly tricker prob for Day2 and It made me understand the difference between iterating to get the value and iterating to get the index . We consider the infamous variable "i" and in both cases the syntaxt for using i changes.
+The problem:
+  Imagine you're tracking stock prices over a series of days.
+  You want to buy low and sell high to maximize profit.
+  Constraints:
+  You can only buy once and sell once.
+  You must buy before you sell (no short selling).
+  If prices only decrease, return 0 since no profit is possible.
+For ex:
+prices = [7, 1, 5, 3, 6, 4]
+Best action:
+Buy at 1 (Day 2)
+Sell at 6 (Day 5)
+Profit = 6 - 1 = 5
+
+My initial thoughts:
+Find the lowest in the array -> TO BUY
+Highest from the position of the lowest -> TO SELL
+
+So first i tried doing that:
+
+  def find(arr):
+    lowest= arr[0]
+    lowest_index=0
+    for i in range(1,len(arr)):
+      lowest < arr[i]
+      lowest = arr[i]
+      lowest_index=i
+    highest = arr[lowest_index+1]
+    for j in range(lowest_index+2, len(arr)):
+      highest > arr[j]
+      highest= arr[j]
+ arr=[1,23,2,34,7]
+ find(arr).print
+ print(lowest, lowest_index, highest)     
+      
