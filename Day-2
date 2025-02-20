@@ -1,23 +1,30 @@
-I picked a slighyly tricker prob for Day2 and It made me understand the difference between iterating to get the value and iterating to get the index . We consider the infamous variable "i" and in both cases the syntaxt for using i changes.
-The problem:
-  Imagine you're tracking stock prices over a series of days.
-  You want to buy low and sell high to maximize profit.
-  Constraints:
-  You can only buy once and sell once.
-  You must buy before you sell (no short selling).
-  If prices only decrease, return 0 since no profit is possible.
-For ex:
+Day 2: Understanding Iteration for Values vs. Iteration for Indices – "Best Time to Buy and Sell Stock"
+For my second day of LeetCode practice, I decided to pick a slightly trickier problem. This one helped me understand something fundamental—the difference between iterating to get a value and iterating to get an index.
+
+Whenever we use the infamous variable i, the syntax and purpose completely change depending on whether we're working with values or indices. This realization became clearer as I tackled this problem.
+
+The Problem
+Imagine you're tracking stock prices over a series of days, and you want to maximize profit by buying and selling at the right times.
+
+Constraints
+You can only buy once and sell once.
+You must buy before you sell (no short selling).
+If prices only decrease, return 0 since no profit is possible.
+Example
+
 prices = [7, 1, 5, 3, 6, 4]
-Best action:
+The best strategy:
 Buy at 1 (Day 2)
 Sell at 6 (Day 5)
 Profit = 6 - 1 = 5
 
-My initial thoughts:
+My Initial Thoughts
+At first, my approach was straightforward:
+
 Find the lowest in the array -> TO BUY
 Highest from the position of the lowest -> TO SELL
 
-So first i tried doing that:
+I expected this to work seamlessly, so I wrote my first attempt:
 
   def find(arr):
     lowest= arr[0]
@@ -33,4 +40,79 @@ So first i tried doing that:
  arr=[1,23,2,34,7]
  find(arr).print
  print(lowest, lowest_index, highest)     
+
+So this gave me the highest value after the lowest had been found.
+But it fails majority since it did not handle edge cases, such as when lowest is the last element.
+
+This would crash because highest = arr[lowest_index + 1] wouldn’t exist.
+Now what is remaining is to make sure it handles all the test cases/exceptions 
+
+Final Updated Code
+Once I caught those mistakes, I wrote a cleaner version that handled all edge cases properly.
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        if not prices or len(prices) < 2:  # Handle edge case: Empty list or single element
+            return 0  
+
+        # Step 1: Find the lowest price and its index
+        lowest = prices[0]
+        lowest_index = 0
+
+        for i in range(1, len(prices)):  # Start from index 1
+            if prices[i] < lowest:
+                lowest = prices[i]
+                lowest_index = i  # Store lowest index
+
+        # Step 2: Ensure there's a valid "highest" price after the lowest index
+        if lowest_index == len(prices) - 1:  # If lowest is last element
+            return 0  # No possible profit
+
+        highest = prices[lowest_index + 1]  # Start checking from the next element
+
+        for j in range(lowest_index + 2, len(prices)):  # Loop through elements after lowest
+            if prices[j] > highest:
+                highest = prices[j]
+
+        # Step 3: Calculate and return profit
+        profit = highest - lowest if highest > lowest else 0
+        return profit
+
+# Example Usage
+solution = Solution()
+prices = [7, 1, 5, 3, 6, 4]
+print(solution.maxProfit(prices))  # Output: 5 (Buy at 1, Sell at 6)
+
+What I Learned
+1️⃣ Understanding Iteration for Values vs. Indices
+I learned that:
+
+When you iterate using for i in arr, i gives the value.
+When you iterate using for i in range(len(arr)), i gives the index.
+I needed the index in this problem because after finding lowest, I had to search for highest after its index.
+
+2️⃣ Edge Cases Matter More Than I Thought
+Initially, I assumed every case would have a valid buy and sell option. But then I realized:
+
+What if prices only decrease? ([9, 8, 7, 6, 5])
+The function should return 0 since no profit is possible.
+What if the lowest price is the last element? ([5, 4, 3, 2, 1])
+There’s no valid selling option after it.
+The fix? Always check whether lowest_index is the last index before looking for the highest.
+
+3️⃣ Off-by-One Errors Are Annoying
+I made several small mistakes with indexing:
+
+Final Thoughts
+This problem was a great exercise in index tracking and edge case handling. 
+The key takeaways:
+
+->Use range(len(arr)) when you need indices, not just values.
+->Always check if an index is valid before accessing it.
+->Test for decreasing-only price lists to ensure no profit cases are handled.
+Now that I understand how to iterate correctly for different use cases, I feel more confident tackling future problems.
+
       
