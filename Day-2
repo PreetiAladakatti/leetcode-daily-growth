@@ -86,33 +86,89 @@ solution = Solution()
 prices = [7, 1, 5, 3, 6, 4]
 print(solution.maxProfit(prices))  # Output: 5 (Buy at 1, Sell at 6)
 
-What I Learned
-1️⃣ Understanding Iteration for Values vs. Indices
-I learned that:
+BUT THIS APPROACH PASSED ONLY HALF OF THE TEST CASES.
+This is because:
+1) I tried to find the lowest price first, then looked for the highest.
+But what if the lowest price appears late in the array?
+I might miss a better buy-sell pair earlier.
+  
+2)I didn’t update the lowest price dynamically.
+Instead of assuming one lowest price, we need to update it whenever we find a new lower price.
 
-When you iterate using for i in arr, i gives the value.
-When you iterate using for i in range(len(arr)), i gives the index.
-I needed the index in this problem because after finding lowest, I had to search for highest after its index.
+3)I didn’t track profit at every step.
+The best profit may not come from just the absolute lowest and highest price, but rather from the best buy-sell opportunity available at any point.
 
-2️⃣ Edge Cases Matter More Than I Thought
-Initially, I assumed every case would have a valid buy and sell option. But then I realized:
+So what we do now is,
+Keep track of the lowest price seen so far.
+At each step, check if selling at the current price gives the best profit.
+Update max profit whenever we find a better opportunity
 
-What if prices only decrease? ([9, 8, 7, 6, 5])
-The function should return 0 since no profit is possible.
-What if the lowest price is the last element? ([5, 4, 3, 2, 1])
-There’s no valid selling option after it.
-The fix? Always check whether lowest_index is the last index before looking for the highest.
+We will iterate through the prices list once, keeping track of:
 
-3️⃣ Off-by-One Errors Are Annoying
-I made several small mistakes with indexing:
+The lowest price so far (lowest).
+The maximum profit seen so far (max_profit).
 
-Final Thoughts
-This problem was a great exercise in index tracking and edge case handling. 
-The key takeaways:
 
-->Use range(len(arr)) when you need indices, not just values.
-->Always check if an index is valid before accessing it.
-->Test for decreasing-only price lists to ensure no profit cases are handled.
-Now that I understand how to iterate correctly for different use cases, I feel more confident tackling future problems.
+The main loop will be :
+if prices[I] < lowest:
+    lowest = prices[I]
+else :
+    profits.append(prices[i] - lowest)
 
-      
+in layman terms,
+If the current value is less than the lowest then update the current value as the lowest.
+now we wont calcute profits if the current value is the lowest because why would we want to sell it at the lowest? 
+We will nly sell it if it is at the max value . So coming to the else part,
+The cursor will only go inside the else part of the current value is not the lowest, in which case we will be calculating the profit and in future we will sell if its the highest.
+We keep a profits =[] list to keep all the profts we calculated so far and then we will just return max(profit)
+
+I also realised there is a more efficient way to structure this loop, Thanks to our python's almost english like syntax
+
+Here instead of storing all the profits in a seperate list, we will just find the highest profit possible while iterating through the list of prices.
+
+if prices[I] < lowest:
+    lowest = prices[I]
+else :
+    profit= max(profit , prices[i]-lowest)
+
+Why this is better!!!
+
+Extra memory usage: We don’t need to store all profit values—we only need to keep track of the best one.
+Extra computation: Finding the max later is unnecessary when we can track it dynamically in a single loop.
+
+So the final sol:
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        if not prices or len(prices) < 2:  # Handle edge case: Empty list or single element
+            return 0  
+
+        # Step 1: Find the lowest price and its index
+        lowest = prices[0]
+        max_profit=0
+
+        for i in range(1, len(prices)):  # Start from index 1
+            if prices[i] < lowest:
+                lowest = prices[i]
+            else:
+                max_profit= max( max_profit , prices[i]-lowest)
+        
+        return max_profit if max_profit else 0
+        
+
+# Example Usage
+solution = Solution()
+prices = [7, 1, 5, 3, 6, 4]
+print(solution.maxProfit(prices))  # Output: 5 (Buy at 1, Sell at 6)
+
+
+What this Problem taught me?
+This problem helped me refine my approach to tracking values dynamically and understand why some brute-force approaches are inefficient.
+🔹 Key Takeaways
+Always update lowest dynamically while iterating.
+Calculate profit at every step, rather than waiting until the lowest is found.
+Use a single loop (O(n)) to keep it efficient.
+Think dynamically, not step-by-step.
